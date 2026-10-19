@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#080a12" />
+  <script>try{if(localStorage.getItem("tradepulse-theme")==="light")document.documentElement.dataset.theme="light"}catch{}</script>
+  <meta name="description" content="A glassy multi-market chart and technical analysis workspace." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>TradePulse — Multi-market trading dashboard</title>
+</head>
+<body>
+  <div class="intro-screen" id="intro-screen" role="status" aria-label="TradePulse is opening">
+    <div class="intro-aura aura-left"></div><div class="intro-aura aura-right"></div>
+    <div class="intro-content">
+      <div class="intro-emblem"><span class="intro-orbit orbit-a"></span><span class="intro-orbit orbit-b"></span><span class="intro-logo">✳</span><span class="intro-glint"></span></div>
+      <div class="intro-wordmark">trade<span>pulse</span></div>
+      <div class="intro-kicker">WHEN I CAN BUY OR SELL</div>
+      <div class="intro-progress"><span></span></div>
+      <div class="intro-message"><span class="loading-dot"></span>Preparing your market workspace<span class="loading-ellipsis">...</span></div>
+      <div class="intro-owner"><span class="owner-star">✦</span><span class="owner-caption">DEVELOPER</span><span class="owner-name">Aaron Cornites</span></div>
+    </div>
+  </div>
+  <section class="access-gate" id="access-gate" aria-labelledby="access-title">
+    <div class="access-card glass">
+      <div class="access-logo" aria-hidden="true">✳</div>
+      <span class="access-kicker">TRADEPULSE ACCESS</span>
+      <h1 id="access-title">Welcome to TradePulse</h1>
+      <p class="access-lead">Choose how you want to enter.</p>
+      <div class="access-choices" id="access-choices">
+        <button class="access-choice" id="visitor-entry" type="button"><span class="access-choice-icon">◉</span><span><b>Continue as Visitor</b><small>Open the market dashboard</small></span><span class="access-arrow">→</span></button>
+        <button class="access-choice" id="developer-entry" type="button"><span class="access-choice-icon">⌘</span><span><b>Developer / Owner</b><small>Sign in to your owner account</small></span><span class="access-arrow">→</span></button>
+      </div>
+      <form class="developer-form" id="developer-form" hidden>
+        <label>Username<input id="developer-username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required placeholder="Developer username"></label>
+        <label>Password<input id="developer-password" type="password" autocomplete="current-password" required placeholder="Password"></label>
+        <div class="developer-form-actions"><button class="access-back" id="access-back" type="button">← Back</button><button class="access-submit" type="submit">Sign in</button></div>
+      </form>
+      <p class="access-status" id="access-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+  <div class="noise"></div><div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
+  <main class="workspace">
+    <header class="topbar glass">
+      <a class="brand" href="#home"><span class="brand-logo">✳</span><span>trade<span class="brand-light">pulse</span><small>WHEN I CAN BUY OR SELL</small></span></a>
+      <nav class="top-links"><a href="#markets">Markets</a><a href="#chart-panel">Workspace</a></nav>
+      <div class="top-right"><a class="top-facebook-link" href="https://www.facebook.com/aaroncornites12321" target="_blank" rel="noopener noreferrer" aria-label="Aaron Cornites on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8z"/></svg><span>Aaron</span></a></div>
+    </header>
+    <div class="theme-switcher" role="group" aria-label="Choose color theme">
+      <button class="theme-choice" type="button" data-theme-choice="dark" aria-pressed="true">☾ Dark mode</button>
+      <button class="theme-choice" type="button" data-theme-choice="light" aria-pressed="false">☀ Light mode</button>
+    </div>
+
+    <section class="admin-panel glass" id="admin-panel" aria-labelledby="admin-title" hidden>
+      <div class="admin-heading">
+        <div><span class="card-eyebrow">PRIVATE DEVELOPER VIEW</span><h2 id="admin-title">Visitor activity</h2><p>Anonymous traffic insights and live sessions.</p></div>
+        <span class="admin-lock">OWNER</span>
+      </div>
+      <div class="admin-toolbar">
+        <span class="admin-connection" id="admin-connection" role="status"><i></i><span>Connecting…</span></span>
+        <div class="admin-actions">
+          <span class="admin-updated" id="admin-updated">Not refreshed yet</span>
+          <button class="admin-action" id="admin-refresh" type="button">↻ Refresh</button>
+          <button class="admin-action" id="admin-export" type="button">↓ Export CSV</button>
+        </div>
+      </div>
+      <div class="admin-stats">
+        <article><span class="admin-stat-number" id="online-count">0</span><span>Online now</span></article>
+        <article><span class="admin-stat-number" id="visit-count">0</span><span>All recorded visits</span></article>
+        <article><span class="admin-stat-number" id="today-count">0</span><span>Today</span></article>
+        <article><span class="admin-stat-number" id="week-count">0</span><span>Last 7 days</span></article>
+        <article><span class="admin-stat-number" id="month-count">0</span><span>Last 30 days</span></article>
+        <article><span class="admin-stat-number" id="average-count">0</span><span>Daily average · 7 days</span></article>
+      </div>
+      <div class="admin-lower-grid">
+        <section class="admin-subpanel" aria-labelledby="trend-title">
+          <div class="visitor-list-head"><b id="trend-title">Daily visits</b><small>Last 7 days</small></div>
+          <div class="visit-trend" id="visit-trend" role="img" aria-label="Visit count for the last seven days"></div>
+        </section>
+        <section class="admin-subpanel" aria-labelledby="online-title">
+          <div class="visitor-list-head"><b id="online-title">Visitors online</b><small>Anonymous IDs</small></div>
+          <label class="visitor-search-wrap"><span class="sr-only">Search anonymous visitors</span><input id="visitor-search" type="search" placeholder="Filter visitor IDs" autocomplete="off"></label>
+          <ul class="visitor-list" id="visitor-list"><li class="visitor-empty">Waiting for visitor sessions…</li></ul>
+        </section>
+      </div>
+
+    </section>
+
+    <section class="hero" id="home">
+      <div><div class="kicker"><span class="kicker-line"></span> YOUR MULTI-MARKET DESK</div><h1>See the bigger<br><span>market picture.</span></h1><p>One focused workspace for global indices, currencies, commodities, stocks and crypto.</p></div>
+      <div class="hero-orbit" aria-hidden="true"><div class="orbit-ring ring-1"></div><div class="orbit-ring ring-2"></div><div class="orbit-core">✳</div><span class="orbit-dot dot-1"></span><span class="orbit-dot dot-2"></span><span class="orbit-dot dot-3"></span></div>
+    </section>
+
+    <section class="markets-panel glass" id="markets">
+      <div class="panel-head"><div><div class="kicker">EXPLORE ASSETS</div><h2>Choose a market</h2></div><span class="micro-note">Select a category, then a symbol</span></div>
+      <div class="category-tabs" id="category-tabs" role="tablist" aria-label="Market category"></div>
+      <div class="asset-row" id="asset-row" aria-label="Available symbols"></div>
+    </section>
+
+    <section class="market-heading">
+      <div class="market-title"><div class="asset-avatar" id="asset-avatar">S</div><div><div class="symbol-line"><h2 id="selected-name">S&amp;P 500</h2><span class="symbol-code" id="selected-code">SP:SPX</span></div><div class="market-subtitle" id="selected-desc">United States · Large-cap index</div></div></div>
+      <div class="market-meta"><span class="source-pill"><i></i> TradingView chart</span><span class="delay-note">Feed timing varies by exchange</span></div>
+    </section>
+
+    <section class="dashboard-grid" id="chart-panel">
+      <article class="glass chart-card">
+        <div class="card-heading"><div><span class="card-eyebrow">PRICE ACTION</span><h3>Market chart</h3></div><span class="chart-live"><i></i> CHART FEED</span></div>
+        <div class="tv-chart-shell"><div class="tradingview-widget-container tv-chart" id="chart-widget"></div></div>
+      </article>
+      <aside class="glass analysis-card">
+        <div class="card-heading"><div><span class="card-eyebrow">INDICATOR CONSENSUS</span><h3>Technical snapshot</h3></div><span class="sparkle">✦</span></div>
+        <p class="analysis-intro">A summary of common technical indicators for the selected market and timeframe.</p>
+        <div class="tv-analysis-shell"><div class="tradingview-widget-container tv-analysis" id="analysis-widget"></div></div>
+        <div class="snapshot-caption">Indicator consensus is backward-looking. It can change quickly and is not a price forecast.</div>
+      </aside>
+    </section>
+
+
+    <section class="disclaimer glass"><span class="disclaimer-star">✦</span><div><b>Use your own risk plan.</b><p>No tool can reliably predict the next move. Data availability and delay depend on the market and exchange; check the instrument’s source before acting. This app does not connect to a broker or place trades.</p></div><a href="https://www.tradingview.com/widget-docs/faq/data/" target="_blank" rel="noreferrer">About data ↗</a></section>
+    <footer class="credit-footer glass">
+      <div class="footer-brand"><span class="footer-logo">✳</span><div><span class="footer-title">TRADEPULSE <span class="footer-dim">· WHEN I CAN BUY OR SELL</span></span><span class="owner-credit"><span class="owner-credit-label">DEVELOPER</span><b>Aaron Cornites</b></span></div></div>
+      <div class="social-links" aria-label="Owner social links">
+        <a class="social-link instagram" href="https://www.instagram.com/itzyuboieyron_?rpxt=MXR5eTRpdmcydWxibw==" target="_blank" rel="noopener noreferrer" aria-label="Aaron Cornites on Instagram"><span class="social-icon instagram-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5.2"/><circle cx="12" cy="12" r="4.1"/><circle class="insta-dot" cx="17.8" cy="6.5" r="1.15"/></svg></span><span>Instagram</span><span class="external-arrow">↗</span></a>
+        <button class="session-exit" id="session-exit" type="button" hidden>↪ Sign out</button>
+      </div>
+      <span class="footer-data">Market widgets by TradingView</span>
+    </footer>
+  </main>
+  <script src="backend-config.js"></script>
+  <script src="app.js"></script>
+  <script type="module" src="auth.js"></script>
+  <script src="intro.js"></script>
+</body>
+</html>
